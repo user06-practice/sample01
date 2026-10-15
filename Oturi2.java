@@ -35,9 +35,12 @@ public class Oturi2 {
         System.out.println("10円玉：" + money / 10 + "枚");
         money = money % 10;
 
+        // 5円玉の枚数
+        System.out.println("5円玉：" + money / 5 + "枚");
+        money = money % 5;
+
         // 1円玉の枚数
         System.out.println("1円玉：" + money + "枚");
-
         sc.close();
     }
 }
