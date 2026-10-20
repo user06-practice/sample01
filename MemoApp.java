@@ -37,32 +37,69 @@ public class MemoApp extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(240, 248, 255));
 
-        JButton newButton = new JButton("📝 新規");
-        JButton openButton = new JButton("📂 開く");
-        JButton saveButton = new JButton("💾 保存");
-        JButton deleteButton = new JButton("🗑 削除");
+       JButton newButton = new JButton("📝 新規");
+JButton openButton = new JButton("📂 開く");
+JButton saveButton = new JButton("💾 保存");
+JButton deleteButton = new JButton("🗑 削除");
+JButton darkButton = new JButton("🌙 ダーク");
+JButton lightButton = new JButton("☀ ライト");
 
         Font buttonFont = new Font("Meiryo", Font.BOLD, 14);
 
         newButton.setFont(buttonFont);
-        openButton.setFont(buttonFont);
-        saveButton.setFont(buttonFont);
-        deleteButton.setFont(buttonFont);
+openButton.setFont(buttonFont);
+saveButton.setFont(buttonFont);
+deleteButton.setFont(buttonFont);
+darkButton.setFont(buttonFont);
+lightButton.setFont(buttonFont);
 
         newButton.setBackground(buttonColor);
         openButton.setBackground(buttonColor);
         saveButton.setBackground(buttonColor);
         deleteButton.setBackground(new Color(255, 160, 160));
+darkButton.setBackground(
+        new Color(80, 80, 80));
+darkButton.setForeground(Color.WHITE);
+
+lightButton.setBackground(
+        new Color(255, 255, 200));
 
         newButton.addActionListener(e -> newFile());
         openButton.addActionListener(e -> openFile());
         saveButton.addActionListener(e -> saveFile());
         deleteButton.addActionListener(e -> deleteText());
+deleteButton.addActionListener(
+        e -> deleteText());
+
+darkButton.addActionListener(e -> {
+
+    textArea.setBackground(Color.BLACK);
+    textArea.setForeground(Color.WHITE);
+
+    statusLabel.setForeground(Color.WHITE);
+    countLabel.setForeground(Color.WHITE);
+
+    getContentPane().setBackground(
+            new Color(40, 40, 40));
+});
+
+lightButton.addActionListener(e -> {
+
+    textArea.setBackground(Color.WHITE);
+    textArea.setForeground(Color.BLACK);
+
+    statusLabel.setForeground(Color.BLACK);
+    countLabel.setForeground(Color.BLACK);
+
+    getContentPane().setBackground(Color.WHITE);
+});
 
         buttonPanel.add(newButton);
-        buttonPanel.add(openButton);
-        buttonPanel.add(saveButton);
-        buttonPanel.add(deleteButton);
+buttonPanel.add(openButton);
+buttonPanel.add(saveButton);
+buttonPanel.add(deleteButton);
+buttonPanel.add(darkButton);
+buttonPanel.add(lightButton);
 
         topPanel.add(buttonPanel, BorderLayout.SOUTH);
 
