@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.io.*;
 import java.time.LocalDateTime;
@@ -9,6 +11,7 @@ public class MemoApp extends JFrame {
     private JTextArea textArea;
     private JLabel statusLabel;
     private JLabel clockLabel;
+    private JLabel countLabel;
 
     public MemoApp() {
 
@@ -26,8 +29,7 @@ public class MemoApp extends JFrame {
         clockLabel.setFont(new Font("Meiryo", Font.BOLD, 32));
         clockLabel.setForeground(new Color(0, 102, 204));
         clockLabel.setBorder(
-                BorderFactory.createEmptyBorder(
-                        15, 10, 15, 10));
+                BorderFactory.createEmptyBorder(15, 10, 15, 10));
 
         topPanel.add(clockLabel, BorderLayout.NORTH);
 
@@ -40,8 +42,7 @@ public class MemoApp extends JFrame {
         JButton saveButton = new JButton("💾 保存");
         JButton deleteButton = new JButton("🗑 削除");
 
-        Font buttonFont =
-                new Font("Meiryo", Font.BOLD, 14);
+        Font buttonFont = new Font("Meiryo", Font.BOLD, 14);
 
         newButton.setFont(buttonFont);
         openButton.setFont(buttonFont);
@@ -51,28 +52,19 @@ public class MemoApp extends JFrame {
         newButton.setBackground(buttonColor);
         openButton.setBackground(buttonColor);
         saveButton.setBackground(buttonColor);
-        deleteButton.setBackground(
-                new Color(255, 160, 160));
+        deleteButton.setBackground(new Color(255, 160, 160));
 
-        newButton.addActionListener(
-                e -> newFile());
-
-        openButton.addActionListener(
-                e -> openFile());
-
-        saveButton.addActionListener(
-                e -> saveFile());
-
-        deleteButton.addActionListener(
-                e -> deleteText());
+        newButton.addActionListener(e -> newFile());
+        openButton.addActionListener(e -> openFile());
+        saveButton.addActionListener(e -> saveFile());
+        deleteButton.addActionListener(e -> deleteText());
 
         buttonPanel.add(newButton);
         buttonPanel.add(openButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(deleteButton);
 
-        topPanel.add(buttonPanel,
-                BorderLayout.SOUTH);
+        topPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(topPanel, BorderLayout.NORTH);
 
@@ -80,9 +72,7 @@ public class MemoApp extends JFrame {
         textArea = new JTextArea();
 
         textArea.setFont(
-                new Font("Meiryo",
-                        Font.PLAIN,
-                        18));
+                new Font("Meiryo", Font.PLAIN, 18));
 
         textArea.setBackground(Color.WHITE);
         textArea.setForeground(Color.BLACK);
@@ -91,20 +81,54 @@ public class MemoApp extends JFrame {
                 BorderLayout.CENTER);
 
         // ===== ステータス =====
+        JPanel bottomPanel =
+                new JPanel(new BorderLayout());
+
         statusLabel =
                 new JLabel("メモを入力してください");
 
-        statusLabel.setFont(
-                new Font("Meiryo",
-                        Font.PLAIN,
-                        13));
+        countLabel =
+                new JLabel("文字数 : 0");
 
-        statusLabel.setBorder(
-                BorderFactory.createEmptyBorder(
-                        5, 10, 5, 10));
+        bottomPanel.add(
+                statusLabel,
+                BorderLayout.WEST);
 
-        add(statusLabel,
+        bottomPanel.add(
+                countLabel,
+                BorderLayout.EAST);
+
+        add(bottomPanel,
                 BorderLayout.SOUTH);
+
+        // ===== 文字数カウント =====
+        textArea.getDocument().addDocumentListener(
+                new DocumentListener() {
+
+                    private void updateCount() {
+                        countLabel.setText(
+                                "文字数 : "
+                                        + textArea.getText().length());
+                    }
+
+                    @Override
+                    public void insertUpdate(
+                            DocumentEvent e) {
+                        updateCount();
+                    }
+
+                    @Override
+                    public void removeUpdate(
+                            DocumentEvent e) {
+                        updateCount();
+                    }
+
+                    @Override
+                    public void changedUpdate(
+                            DocumentEvent e) {
+                        updateCount();
+                    }
+                });
 
         // ===== 時計 =====
         Timer timer =
